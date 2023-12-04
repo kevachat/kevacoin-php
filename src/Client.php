@@ -71,7 +71,7 @@ class Client
         {
             curl_setopt(
                 $this->_curl,
-                CURLOPT_data,
+                CURLOPT_POSTFIELDS,
                 json_encode(
                     $data
                 )
@@ -81,7 +81,7 @@ class Client
 
     private function _execute(
         bool $json = true
-    ): ?string
+    ): ?array
     {
         $response = curl_exec(
             $this->_curl
@@ -97,7 +97,7 @@ class Client
 
         if ($response)
         {
-            return $json ? json_decode($response) : $response;
+            return $json ? json_decode($response, true) : $response;
         }
 
         return null;
