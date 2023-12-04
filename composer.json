@@ -1,0 +1,11 @@
+{
+    "name": "kevachat/kevacoin",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Kevachat\\Kevacoin\\": "src/"
+        }
+    },
+    "require": {}
+}
