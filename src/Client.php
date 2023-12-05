@@ -242,7 +242,11 @@ class Client
 
     public function kevaFilter(
         string $namespace,
-        ?string $value = ''
+        ?string $regexp = '',
+        ?int $maxage = 36000,
+        ?int $from = 0,
+        ?int $nb = 0,
+        ?bool $stat = false,
     ): mixed
     {
         $this->_id++;
@@ -253,10 +257,25 @@ class Client
             [
                 'method' => 'keva_filter',
                 'params' =>
-                [
-                    $namespace,
-                    $value
-                ],
+                (
+                    $stat?
+                    [
+                        $namespace,
+                        $regexp,
+                        $maxage,
+                        $from,
+                        $nb,
+                        'stat'
+                    ]
+                    :
+                    [
+                        $namespace,
+                        $regexp,
+                        $maxage,
+                        $from,
+                        $nb
+                    ]
+                ),
                 'id' => $this->_id
             ]
         );
