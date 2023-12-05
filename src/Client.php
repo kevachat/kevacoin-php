@@ -347,4 +347,28 @@ class Client
 
         return null;
     }
+
+    public function kevaPending(): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_pending',
+                'params' => [],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response) && is_array($response))
+        {
+            return $response;
+        }
+
+        return null;
+    }
 }
