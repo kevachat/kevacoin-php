@@ -242,7 +242,7 @@ class Client
 
     public function kevaFilter(
         string $namespace,
-        ?string $value = null
+        ?string $value = ''
     ): mixed
     {
         $this->_id++;
