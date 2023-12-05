@@ -315,4 +315,36 @@ class Client
 
         return null;
     }
+
+    public function kevaPut(
+        string $namespace,
+        string $key,
+        string $value
+    ): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_put',
+                'params' => [
+                    $namespace,
+                    $key,
+                    $value
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['txid']) && is_string($response['txid']))
+        {
+            return $response['txid'];
+        }
+
+        return null;
+    }
 }
