@@ -239,4 +239,35 @@ class Client
 
         return null;
     }
+
+    public function kevaFilter(
+        string $namespace,
+        ?string $value = null
+    ): mixed
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_filter',
+                'params' =>
+                [
+                    $namespace,
+                    $value
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
 }
