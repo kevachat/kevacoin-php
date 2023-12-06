@@ -364,9 +364,9 @@ class Client
 
         $response = $this->_execute();
 
-        if (!empty($response) && is_array($response))
+        if (!empty($response['result']) && is_array($response['result']))
         {
-            return $response;
+            return $response['result'];
         }
 
         return null;
