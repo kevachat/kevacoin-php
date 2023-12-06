@@ -340,9 +340,9 @@ class Client
 
         $response = $this->_execute();
 
-        if (!empty($response['txid']) && is_string($response['txid']))
+        if (!empty($response['result']) && !empty($response['result']['txid']) && is_string($response['result']['txid']))
         {
-            return $response['txid'];
+            return $response['result']['txid'];
         }
 
         return null;
