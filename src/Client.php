@@ -292,6 +292,8 @@ class Client
         return null;
     }
 
+    // Pay attention:
+    // for some reasons, wallet hide namespaces from list where pending transaction exist
     public function kevaListNamespaces(): ?array
     {
         $this->_id++;
