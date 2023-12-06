@@ -294,6 +294,7 @@ class Client
 
     // Pay attention:
     // for some reasons, wallet hide namespaces from list where pending transaction exist
+    // to get some data e.g. namespace name, use keva_get / _KEVA_NS_ with max height value instead of this method
     public function kevaListNamespaces(): ?array
     {
         $this->_id++;
