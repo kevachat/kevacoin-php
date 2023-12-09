@@ -242,6 +242,35 @@ class Client
         return null;
     }
 
+    public function decodeRawTransaction(
+        string $txid
+    ): mixed
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'decoderawtransaction',
+                'params' =>
+                [
+                    $txid
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
     public function kevaFilter(
         string $namespace,
         ?string $regexp = '',
@@ -368,6 +397,34 @@ class Client
         $response = $this->_execute();
 
         if (!empty($response['result']) && is_array($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
+    public function kevaNamespace(
+        string $name
+    ): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_namespace',
+                'params' => [
+                    $name
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']) && !empty($response['result']['txid']) && !empty($response['result']['namespaceId']))
         {
             return $response['result'];
         }
