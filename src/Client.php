@@ -321,6 +321,43 @@ class Client
         return null;
     }
 
+    public function kevaGet(
+        string $namespace,
+        string $key
+    ): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_get',
+                'params' =>
+                [
+                    $namespace,
+                    $key
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (
+            !empty($response['result']) &&
+            !empty($response['result']['key']) &&
+            !empty($response['result']['value']) &&
+            !empty($response['result']['height']) &&
+            isset($response['result']['vout'])
+        )
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
     // Pay attention:
     // for some reasons, wallet hide namespaces from list where pending transaction exist
     // to get some data e.g. namespace name, use keva_get / _KEVA_NS_ with max height value instead of this method
