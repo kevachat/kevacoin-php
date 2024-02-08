@@ -274,7 +274,7 @@ class Client
     public function kevaFilter(
         string $namespace,
         ?string $regexp = '',
-        ?int $maxage = 36000,
+        ?int $maxage = 0,
         ?int $from = 0,
         ?int $nb = 0,
         ?bool $stat = false,
