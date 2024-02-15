@@ -129,7 +129,7 @@ class Client
         return null;
     }
 
-    public function getBalance(): ?float
+    public function getBalance(?string $address = null, ?int $minconf = null): ?float
     {
         $this->_id++;
 
@@ -138,7 +138,11 @@ class Client
             'POST',
             [
                 'method' => 'getbalance',
-                'params' => [],
+                'params' =>
+                [
+                    $address,
+                    $minconf
+                ],
                 'id'     => $this->_id
             ]
         );
@@ -462,6 +466,58 @@ class Client
         $response = $this->_execute();
 
         if (!empty($response['result']) && !empty($response['result']['txid']) && !empty($response['result']['namespaceId']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
+    public function getNewAddress(): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'getnewaddress',
+                'params' => [],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
+    public function getReceivedByAddress(string $address, int $minconf = 0): ?float
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'getreceivedbyaddress',
+                'params' =>
+                [
+                    $address,
+                    $minconf
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (isset($response['result']) && is_float($response['result']))
         {
             return $response['result'];
         }
