@@ -527,7 +527,7 @@ class Client
 
     public function sendToAddress(
         string  $address,
-        float   $amount = 0,
+        float   $amount,
         ?string $comment = null,
         ?string $comment_to = null,
         ?bool   $subtractfeefromamount = false,
