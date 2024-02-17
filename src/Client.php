@@ -389,6 +389,24 @@ class Client
         return null;
     }
 
+    /*
+     * keva_put "namespace" "key" "value" "address"
+     *
+     * Insert or update a key value pair in the given namespace.
+     *
+     * Arguments:
+     * 1. "namespace" (string, required) the namespace to insert the key to
+     * 2. "key"       (string, required) value for the key
+     * 3. "value"     (string, required) value for the name
+     * 4. "address"   (string, optional) transfer the namespace to the given address
+     *
+     * Result:
+     * "txid"         (string) the keva_put's txid
+     *
+     * Examples:
+     * > kevacoin-cli keva_put "mynamespace", "new-key", "new-value"
+     * (code -1)
+    */
     public function kevaPut(
         string  $namespace,
         string  $key,
