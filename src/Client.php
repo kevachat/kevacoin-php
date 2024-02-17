@@ -600,6 +600,33 @@ class Client
         return null;
     }
 
+    public function getAccount(string $address): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'getaccount',
+                'params' =>
+                [
+                    $address
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (isset($response['result']) && is_string($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
     public function listAccounts(): ?array
     {
         $this->_id++;
