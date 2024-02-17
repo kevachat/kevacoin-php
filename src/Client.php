@@ -129,7 +129,7 @@ class Client
         return null;
     }
 
-    public function getBalance(?string $address = null, ?int $minconf = null): ?float
+    public function getBalance(?string $account = null, ?int $minconf = null): ?float
     {
         $this->_id++;
 
@@ -140,7 +140,7 @@ class Client
                 'method' => 'getbalance',
                 'params' =>
                 [
-                    $address,
+                    $account,
                     $minconf
                 ],
                 'id'     => $this->_id
