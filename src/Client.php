@@ -529,6 +529,34 @@ class Client
         return null;
     }
 
+    public function getReceivedByAccount(string $account, ?int $minconf = 0): ?float
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'getreceivedbyaccount',
+                'params' =>
+                [
+                    $account,
+                    $minconf
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (isset($response['result']) && is_float($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
     public function sendToAddress(
         string  $address,
         float   $amount,
