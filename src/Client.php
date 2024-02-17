@@ -473,7 +473,7 @@ class Client
         return null;
     }
 
-    public function getNewAddress(): ?string
+    public function getNewAddress(?string $account = null, $address_type = null): ?string
     {
         $this->_id++;
 
@@ -482,7 +482,11 @@ class Client
             'POST',
             [
                 'method' => 'getnewaddress',
-                'params' => [],
+                'params' =>
+                [
+                    $account,
+                    $address_type
+                ],
                 'id' => $this->_id
             ]
         );
