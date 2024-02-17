@@ -600,6 +600,45 @@ class Client
         return null;
     }
 
+    public function sendFrom(
+        string  $fromaccount,
+        string  $toaddress,
+        float   $amount,
+        ?int    $minconf = null,
+        ?string $comment = null,
+        ?string $comment_to = null
+    ): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'sendfrom',
+                'params' =>
+                [
+                    $fromaccount,
+                    $toaddress,
+                    $amount,
+                    $minconf,
+                    $comment,
+                    $comment_to
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']) && !empty($response['result']['txid']) && is_string($response['result']['txid']))
+        {
+            return $response['result']['txid'];
+        }
+
+        return null;
+    }
+
     public function getAccount(string $address): ?string
     {
         $this->_id++;
