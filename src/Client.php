@@ -398,7 +398,7 @@ class Client
      * 1. "namespace" (string, required) the namespace to insert the key to
      * 2. "key"       (string, required) value for the key
      * 3. "value"     (string, required) value for the name
-     * 4. "address"   (string, optional) transfer the namespace to the given address
+     * 4. "address"   (string, optional) transfer the namespace to the given address (Version 0.16.7.0 or above)
      *
      * Result:
      * "txid"         (string) the keva_put's txid
