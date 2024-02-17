@@ -497,7 +497,7 @@ class Client
         return null;
     }
 
-    public function getReceivedByAddress(string $address, int $minconf = 0): ?float
+    public function getReceivedByAddress(string $address, ?int $minconf = 0): ?float
     {
         $this->_id++;
 
@@ -520,6 +520,49 @@ class Client
         if (isset($response['result']) && is_float($response['result']))
         {
             return $response['result'];
+        }
+
+        return null;
+    }
+
+    public function sendToAddress(
+        string  $address,
+        float   $amount = 0,
+        ?string $comment = null,
+        ?string $comment_to = null,
+        ?bool   $subtractfeefromamount = false,
+                $replaceable = null,
+                $conf_target = null,
+                $estimate_mode = null
+    ): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'sendtoaddress',
+                'params' =>
+                [
+                    $address,
+                    $amount,
+                    $comment,
+                    $comment_to,
+                    $subtractfeefromamount,
+                    $replaceable,
+                    $conf_target,
+                    $estimate_mode
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']) && !empty($response['result']['txid']) && is_string($response['result']['txid']))
+        {
+            return $response['result']['txid'];
         }
 
         return null;
