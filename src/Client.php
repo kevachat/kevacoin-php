@@ -390,9 +390,10 @@ class Client
     }
 
     public function kevaPut(
-        string $namespace,
-        string $key,
-        string $value
+        string  $namespace,
+        string  $key,
+        string  $value,
+        ?string $address = null
     ): ?string
     {
         $this->_id++;
@@ -405,7 +406,8 @@ class Client
                 'params' => [
                     $namespace,
                     $key,
-                    $value
+                    $value,
+                    $address
                 ],
                 'id' => $this->_id
             ]
