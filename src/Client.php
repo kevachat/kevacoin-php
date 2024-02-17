@@ -654,6 +654,33 @@ class Client
         return null;
     }
 
+    public function getAddressesByAccount(string $account): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'getaddressesbyaccount',
+                'params' =>
+                [
+                    $account
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (isset($response['result']) && is_array($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
     public function listAccounts(): ?array
     {
         $this->_id++;
