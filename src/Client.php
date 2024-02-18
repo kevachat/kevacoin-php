@@ -85,24 +85,23 @@ class Client
         bool $json = true
     ): ?array
     {
-        $response = curl_exec(
-            $this->_curl
-        );
-
-        $errorNumber = curl_errno(
-            $this->_curl
-        );
-
-        $errorText = curl_error(
-            $this->_curl
-        );
-
-        if ($response)
+        if ($response = curl_exec($this->_curl))
         {
             return $json ? json_decode($response, true) : $response;
         }
 
         return null;
+    }
+
+    public function getError(?int &$code = null): mixed
+    {
+        $code = curl_errno(
+            $this->_curl
+        );
+
+        return curl_error(
+            $this->_curl
+        );
     }
 
     public function getBlockCount(): ?int
