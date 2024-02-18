@@ -410,7 +410,7 @@ class Client
         string  $namespace,
         string  $key,
         string  $value,
-        ?string $address = null
+        # ?string $address = null // disabled as not stable
     ): ?string
     {
         $this->_id++;
@@ -423,8 +423,7 @@ class Client
                 'params' => [
                     $namespace,
                     $key,
-                    $value,
-                    $address
+                    $value
                 ],
                 'id' => $this->_id
             ]
