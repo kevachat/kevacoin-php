@@ -761,4 +761,31 @@ class Client
 
         return null;
     }
+
+    public function kevaGroupFilter(string $namespace): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_group_filter',
+                'params' =>
+                [
+                    $namespace
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (isset($response['result']) && is_array($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
 }
