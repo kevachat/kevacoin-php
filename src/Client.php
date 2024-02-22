@@ -788,4 +788,175 @@ class Client
 
         return null;
     }
+
+    public function kevaGroupGet(
+        string $namespace,
+        string $key
+    ): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_group_get',
+                'params' =>
+                [
+                    $namespace,
+                    $key
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (isset($response['result']) && is_array($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
+
+    /*
+     * Join the other namespace, so that the data in both namespaces can be combined. See keva_group_leave.
+     *
+     * Arguments:
+     * 1. "my_namespace"         (string, required) the namespace to join to <other_namespace>
+     * 2. "other_namespace"      (string, required) the target namespace to join to
+     *
+     * Result:
+     * "txid"                    (string) the keva_put's txid
+     */
+    public function kevaGroupJoin(
+        string $source,
+        string $target
+    ): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_group_join',
+                'params' =>
+                [
+                    $source,
+                    $target
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']) && !empty($response['result']['txid']) && is_string($response['result']['txid']))
+        {
+            return $response['result']['txid'];
+        }
+
+        return null;
+    }
+
+    /*
+     * Leave the other namespace so that the data are not to be combined with it. See keva_group_join.
+     *
+     * Arguments:
+     * 1. "my_namespace"    (string, required) the namespace to leave <other_namespace>
+     * 2. "other_namespace" (string, required) the target namespace to leave
+     *
+     * Result:
+     * "txid"               (string) the keva_put's txid
+     */
+    public function kevaGroupLeave(
+        string $source,
+        string $target
+    ): ?string
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_group_leave',
+                'params' =>
+                [
+                    $source,
+                    $target
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']) && !empty($response['result']['txid']) && is_string($response['result']['txid']))
+        {
+            return $response['result']['txid'];
+        }
+
+        return null;
+    }
+
+    /*
+     * List namespaces that are in the same group as the given namespace.
+     *
+     * Arguments:
+     * 1. "namespace"   (string) namespace Id
+     * 2. "maxage"      (numeric, optional, default=96000) only consider namespaces updated in the last "maxage" blocks; 0 means all namespaces
+     * 3. "from"        (numeric, optional, default=0) return from this position onward; index starts at 0
+     * 4. "nb"          (numeric, optional, default=0) return only "nb" entries; 0 means all
+     * 5. "stat"        (string, optional) if set to the string "stat", print statistics instead of returning the names
+     *
+     * Result:
+     * [
+     * {
+     *     "key": xxxxx,            (string) the requested key
+     *     "value": xxxxx,          (string) the key's current value
+     *     "txid": xxxxx,           (string) the key's last update tx
+     *     "height": xxxxx,         (numeric) the key's last update height
+     * },
+     * ...
+     * ]
+     */
+    public function kevaGroupShow(
+        string  $namespace,
+        ?int    $maxage = 0,
+        ?int    $from = 0,
+        ?int    $nb = 0,
+        ?string $stat = null
+    ): ?array
+    {
+        $this->_id++;
+
+        $this->_prepare(
+            '',
+            'POST',
+            [
+                'method' => 'keva_group_show',
+                'params' =>
+                [
+                    $namespace,
+                    $maxage,
+                    $from,
+                    $nb,
+                    $stat
+                ],
+                'id' => $this->_id
+            ]
+        );
+
+        $response = $this->_execute();
+
+        if (!empty($response['result']))
+        {
+            return $response['result'];
+        }
+
+        return null;
+    }
 }
