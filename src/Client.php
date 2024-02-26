@@ -401,11 +401,7 @@ class Client
      *
      * Result:
      * "txid"         (string) the keva_put's txid
-     *
-     * Examples:
-     * > kevacoin-cli keva_put "mynamespace", "new-key", "new-value"
-     * (code -1)
-    */
+     */
     public function kevaPut(
         string  $namespace,
         string  $key,
@@ -423,7 +419,8 @@ class Client
                 'params' => [
                     $namespace,
                     $key,
-                    $value
+                    $value,
+                    # $address // disabled as not stable
                 ],
                 'id' => $this->_id
             ]
@@ -762,7 +759,40 @@ class Client
         return null;
     }
 
-    public function kevaGroupFilter(string $namespace): ?array
+    /*
+     * keva_group_filter ("namespaceId" ("initiator" "regexp" ("from" ("nb" ("stat")))))
+     *
+     * Scan and list keys matching a regular expression.
+     *
+     * Arguments:
+     * 1. "namespace"   (string) namespace Id
+     * 2. "initiator"   (string, optional) Options are "all", "self" and "other", default is "all". "all": all the namespaces, whose participation in the group is initiated by this namespace or other namespaces. "self": only the namespace whose participation is initiated by this namespace. "other": only the namespace whose participation is initiated by other namespaces.
+     * 3. "regexp"      (string, optional) filter keys with this regexp
+     * 4. "maxage"      (numeric, optional, default=96000) only consider names updated in the last "maxage" blocks; 0 means all names
+     * 5. "from"        (numeric, optional, default=0) return from this position onward; index starts at 0
+     * 6. "nb"          (numeric, optional, default=0) return only "nb" entries; 0 means all
+     * 7. "stat"        (string, optional) if set to the string "stat", print statistics instead of returning the names
+     *
+     * Result:
+     * [
+     * {
+     *     "key": xxxxx,            (string) the requested key
+     *     "value": xxxxx,          (string) the key's current value
+     *     "txid": xxxxx,           (string) the key's last update tx
+     *     "height": xxxxx,         (numeric) the key's last update height
+     * },
+     * ...
+     * ]
+     */
+    public function kevaGroupFilter(
+        string  $namespace,
+        ?string $initiator = 'all',
+        ?string $regexp = '',
+        ?int    $maxage = 0,
+        ?int    $from = 0,
+        ?int    $nb = 0,
+        # ?string $stat = null, // disabled as not stable
+    ): ?array
     {
         $this->_id++;
 
@@ -773,7 +803,13 @@ class Client
                 'method' => 'keva_group_filter',
                 'params' =>
                 [
-                    $namespace
+                    $namespace,
+                    $initiator,
+                    $regexp,
+                    $maxage,
+                    $from,
+                    $nb,
+                    # $stat // disabled as not stable
                 ],
                 'id' => $this->_id
             ]
